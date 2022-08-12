@@ -14,14 +14,19 @@ body {
 
 #transHist {
   font-family: sans-serif;
-  margin-top: 0;
-  vertical-align: top;
+  margin-top: 8px;
+  text-align: center;
+  font-weight: 100;
+}
+
+#winnings {
+  font-family: sans-serif;
+  margin-top: 8px;
   text-align: center;
   font-weight: 100;
 }
 
 td {
-
   margin-top: 0;
   margin-bottom: 0;
   text-align: center;
@@ -33,7 +38,7 @@ img {
   min-width: 120px;
   min-height: 120px;
   height: auto;
-  width: auto\9;
+  width: auto;
 }
 
 #tableShit p {
@@ -67,9 +72,7 @@ li {
   font-family: sans-serif;
   list-style-type: none;
 }
-#transHist td {
-  vertical-align: top;
-}
+
 footer {
   margin: auto;
   width: 100%;

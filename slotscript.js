@@ -34,17 +34,24 @@ $(document).ready(function() {
 	document.getElementById("totalNum").innerHTML = "Total: " + total;
 	document.getElementById("curBet").innerHTML = "Bet: " + bet;
 
+	//setting up transaction history
+	const p = document.getElementById("dynamicPara");
+
 	//withdraw
 	const Withdraw = document.getElementById("withbut");
 	
 	Withdraw.addEventListener("click", (w) => {
 		w.preventDefault();
-		var input1 = document.getElementById("inputNum").value;
-		if (input1 <= total && input1 > -1){
-			total = +total - +input1;
+		var input = document.getElementById("inputNum").value;
+		if (input <= total && input > 0){
+			total = +total - +input;
 			document.getElementById("totalNum").innerHTML = "Total: " + total;
+
+			//update transaction history
+			let html = "<span style='color:red'> -" + input + "</span><br>";
+			p.insertAdjacentHTML('beforeend', html);
 		}
-		else if (input1 > total) {
+		else if (input > total) {
 			alert("Insufficient Funds");
 		}
 	})
@@ -55,9 +62,13 @@ $(document).ready(function() {
 	Deposit.addEventListener("click", (d) => {
 		d.preventDefault();
 		var input = document.getElementById("inputNum").value;
-		if (input > -1){
-		total = +total + +input;
-		document.getElementById("totalNum").innerHTML = "Total: " + total;
+		if (input > 0){
+			total = +total + +input;
+			document.getElementById("totalNum").innerHTML = "Total: " + total;
+
+			//update transaction history
+			let html = "<span style='color:green'> +" + input + "</span><br>";
+			p.insertAdjacentHTML('beforeend', html);
 		}
 
 	})
@@ -67,8 +78,8 @@ $(document).ready(function() {
 	function add1() {
 		
 		if (bet > -1){
-		bet++;
-		document.getElementById("curBet").innerHTML = "Bet: " + bet;
+			bet++;
+			document.getElementById("curBet").innerHTML = "Bet: " + bet;
 		}
 	}
 	
@@ -126,23 +137,20 @@ $(document).ready(function() {
 			lastSlot1 = num1;
 			lastSlot2 = num2;
 			lastSlot3 = num3;
-
-
-
 		}
 	}
 
 	//spin slot 1 proper amount
 	async function spinAnimation1(slot1Distance, slot1Destination, slotStart1){
 		
-		//for each number from previous slot to the next slot
-		for (let i = 0; i <= slot1Distance; i++){
+		//for each number from previous slot to the next slot + 1 full spin
+		for (let i = 0; i <= slot1Distance + 6; i++){
 			nextSlot = (slotStart1 + i) % 6;
 			nextImage = nextSlot + ".png";
 
 			//setting up initial images
 			document.getElementById("slot1").src = "img/" + nextImage;
-			await sleep(90);
+			await sleep(60);
 
 			//DEBUG IMAGES
 			//console.log("Image 1 = " + nextImage);
@@ -152,14 +160,14 @@ $(document).ready(function() {
 	//spin slot 2 proper amount
 	async function spinAnimation2(slot2Distance, slot2Destination, slotStart2){
 		
-		//for each number from previous slot to the next slot + 6
-		for (let i = 0; i <= slot2Distance + 6; i++){
+		//for each number from previous slot to the next slot + 2 full spins
+		for (let i = 0; i <= slot2Distance + 12; i++){
 			nextSlot = (slotStart2 + i) % 6;
 			nextImage = nextSlot + ".png";
 
 			//setting up initial images in loop
 			document.getElementById("slot2").src = "img/" + nextImage;
-			await sleep(90);
+			await sleep(60);
 
 			//DEBUG IMAGES
 			//console.log("Image 2 = " + nextImage);
@@ -169,14 +177,14 @@ $(document).ready(function() {
 	//spin slot 3 proper amount
 	async function spinAnimation3(slot3Distance, slot3Destination, slotStart3, num1, num2){
 		
-		//for each number from previous slot to the next slot + 12
-		for (let i = 0; i <= slot3Distance + 12; i++){
+		//for each number from previous slot to the next slot + 3 full spins
+		for (let i = 0; i <= slot3Distance + 18; i++){
 			nextSlot = (slotStart3 + i) % 6;
 			nextImage = nextSlot + ".png";
 
 			//setting up initial images
 			document.getElementById("slot3").src = "img/" + nextImage;
-			await sleep(90);
+			await sleep(60);
 
 			//DEBUG IMAGES
 			//console.log("Image 3 = " + nextImage);
@@ -193,39 +201,39 @@ $(document).ready(function() {
 
 	//calculate distance from last slot to new slot
 	function distanceCalc(lastSlot, nextSlot){
-	var distance;
+		var distance;
 
-	//DEBUG DISTANCE CALCULATION
-	//console.log("lastSlot = " + lastSlot);
-	//console.log("nextSlot = " + nextSlot);
+		//DEBUG DISTANCE CALCULATION
+		//console.log("lastSlot = " + lastSlot);
+		//console.log("nextSlot = " + nextSlot);
 
-	distance = (6 - lastSlot + nextSlot) % 6;
-	return distance;
+		distance = (6 - lastSlot + nextSlot) % 6;
+		return distance;
 
 	}
 
 	//check if all 3 numbers are equal and delivers reward
 	function calcWinnings(num1, num2, num3){
 			
-			//DEBUG SLOTS AT END
-			console.log("slot 1 = "+num1)
-			console.log("slot 2 = "+num2)
-			console.log("slot 3 = "+num3)
+		//DEBUG SLOTS AT END
+		console.log("slot 1 = "+num1)
+		console.log("slot 2 = "+num2)
+		console.log("slot 3 = "+num3)
 
-			//if all 3 numbers are the same
-			if (num1 == num2 && num1 == num3){
-			console.log("you won")
+		//if all 3 numbers are the same
+		if (num1 == num2 && num1 == num3){
+		console.log("you won")
 			
-			//calculate winnings
-			var multi = +num1 + 1;
-			var winnings = +bet * +multi;
+		//calculate winnings
+		var multi = +num1 + 1;
+		var winnings = +bet * +multi;
 
-			//display win message
-			alert("You won: " + winnings);
+		//display win message
+		alert("You won: " + winnings);
 
-			//update balance
-			total = +total + +winnings
-			document.getElementById("totalNum").innerHTML = "Total: " + total;
-			}		
+		//update balance
+		total = +total + +winnings
+		document.getElementById("totalNum").innerHTML = "Total: " + total;
+		}		
 	}
 });
