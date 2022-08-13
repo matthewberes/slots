@@ -31,7 +31,7 @@
 		<td> 
 			<p></p>
 			<form id =inputForm>
-				<input type = "number" min = "0" size =16 id= "inputNum"><br>  			
+				<input type = "number" min = "0" size ="16" maxlength="16" id= "inputNum"><br>  			
   				<input type = "button" name = "depobut" id = "depobut" value = "Deposit" />
   				<input type = "button" name = "withbut" id = "withbut" value = "Withdraw" />
   			</form>

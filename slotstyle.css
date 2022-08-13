@@ -26,6 +26,10 @@ body {
   font-weight: 100;
 }
 
+input[type='number']{
+  width: 115px;
+}
+
 td {
   margin-top: 0;
   margin-bottom: 0;
@@ -51,7 +55,6 @@ margin: 15px 0px 15px;
 
 transBody.scrollable {
   overflow: scroll;
-  height: 1000px;
 }
 
 p {
