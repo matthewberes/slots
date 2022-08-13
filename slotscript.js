@@ -49,7 +49,7 @@ $(document).ready(function() {
 
 			//update transaction history
 			let html = "<span style='color:red'> -" + input + "</span><br>";
-			p.insertAdjacentHTML('beforeend', html);
+			p.insertAdjacentHTML('afterbegin', html);
 		}
 		else if (input > total) {
 			alert("Insufficient Funds");
@@ -68,7 +68,7 @@ $(document).ready(function() {
 
 			//update transaction history
 			let html = "<span style='color:green'> +" + input + "</span><br>";
-			p.insertAdjacentHTML('beforeend', html);
+			p.insertAdjacentHTML('afterbegin', html);
 		}
 
 	})

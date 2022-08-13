@@ -16,7 +16,7 @@
 
 <div id="tableShit">
 <table width="100%" border = 2>
-	<tr>
+	<thead>	
 		<td> 
 			<img id="slot1" src="img/1.png" alt="didnt work" border=3></img>
 		</td>
@@ -26,8 +26,8 @@
 		<td>
 			<img id="slot3" src="img/1.png" alt="didnt work" border=3></img>
 		</td>
-	</tr>
-	<tr>
+	</thead>
+	<tbody>
 		<td> 
 			<p></p>
 			<form id =inputForm>
@@ -45,23 +45,22 @@
 		<td>
 			<p id ="pull" >PULL</p>
 		</td>
-	</tr>
-	<tr>
-		<td>
-			
+	</tbody>
+
+		<tbody>
+		<td>	
 		</td>
 		<td valign="top">
 			<h2 id="winnings">Winnings</h2>
 			<p>Bar = 1X Bet<br>Grape = 2X Bet<br>Seven = 3X Bet<br>Dollar = 4X Bet<br>Bell = 5X Bet<br>Lemon = 6X Bet<br>
 			</p>
 		</td>
-		
-		<td valign= "top">
+		<td valign= "top">	<div style="width:100%; max-height:175px; overflow: auto;"id="transBody" class=scrollable>
 			<h2 id="transHist">Transaction History</h2>
 			<p id="dynamicPara"></p>
 		</td>
-		
-	</tr>
+	</tbody>
+	</div>
 </table>
 
 </div>

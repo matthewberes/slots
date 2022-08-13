@@ -49,6 +49,11 @@ margin: 15px 0px 15px;
   text-align: center;
 }
 
+transBody.scrollable {
+  overflow: scroll;
+  height: 1000px;
+}
+
 p {
   margin: 15px 0px 15px; 
   font-family: sans-serif;
