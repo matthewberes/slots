@@ -7,6 +7,7 @@
 
 
 $(document).ready(function() {
+	//initializing variables
 	let total = 69;
 	let bet = 10;
 
@@ -37,6 +38,25 @@ $(document).ready(function() {
 	//setting up transaction history
 	const p = document.getElementById("dynamicPara");
 
+	//deposit/withdraw cell
+
+	//deposit
+	const Deposit = document.getElementById("depobut");
+
+	Deposit.addEventListener("click", (d) => {
+		d.preventDefault();
+		var input = document.getElementById("inputNum").value;
+		if (input > 0){
+			total = +total + +input;
+			document.getElementById("totalNum").innerHTML = "Total: " + total;
+
+			//update transaction history
+			let html = "<span style='color:green'> +" + input + "</span><br>";
+			p.insertAdjacentHTML('afterbegin', html);
+		}
+
+	})
+
 	//withdraw
 	const Withdraw = document.getElementById("withbut");
 	
@@ -56,22 +76,7 @@ $(document).ready(function() {
 		}
 	})
 
-	//deposit
-	const Deposit = document.getElementById("depobut");
-
-	Deposit.addEventListener("click", (d) => {
-		d.preventDefault();
-		var input = document.getElementById("inputNum").value;
-		if (input > 0){
-			total = +total + +input;
-			document.getElementById("totalNum").innerHTML = "Total: " + total;
-
-			//update transaction history
-			let html = "<span style='color:green'> +" + input + "</span><br>";
-			p.insertAdjacentHTML('afterbegin', html);
-		}
-
-	})
+	//bet cell
 
 	//raise bet
 	document.getElementById("add1").onclick = function() {add1()};
@@ -92,6 +97,8 @@ $(document).ready(function() {
 			document.getElementById("curBet").innerHTML = "Bet: " + bet;
 		}
 	}
+
+	//spin/pull cell
 
 	//spin
 	document.getElementById("pull").onclick = function() {RNG()};
@@ -139,6 +146,39 @@ $(document).ready(function() {
 			lastSlot3 = num3;
 		}
 	}
+
+	//account cell
+
+	//forgot your password
+	document.getElementById("fyp").onclick = function() {FYP()};
+	function FYP() {
+		console.log("remember it next time");
+	}
+
+	//switch to sign up
+	document.getElementById("su").onclick = function() {SU()};
+	function SU() {
+		console.log("switch to sign up");
+		document.getElementById("logInTitle").innerHTML = "Sign Up";
+		var l = document.getElementById("logInPage");
+		var s = document.getElementById("signUpPage");
+
+		l.style.display = "none";
+		s.style.display = "block";
+	}
+
+	//switch to log in
+	document.getElementById("aha").onclick = function() {AHA()};
+	function AHA() {
+		console.log("switch to login");
+		document.getElementById("logInTitle").innerHTML = "Log in";
+		var l = document.getElementById("logInPage");
+		var s = document.getElementById("signUpPage");
+
+		l.style.display = "block";
+		s.style.display = "none";
+	}
+
 
 	//spin slot 1 proper amount
 	async function spinAnimation1(slot1Distance, slot1Destination, slotStart1){

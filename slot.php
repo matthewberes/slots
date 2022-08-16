@@ -3,10 +3,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="stylesheet" type="text/css" href="slotstyle.css" media="screen"/>
-<link rel="stylesheet" media='screen and (min-width: 200px) and (max-width: 400px)' href='style1.css' />
 <script src="jquery-3.1.1.js"></script>
 <script src="slotscript.js"></script>
-<title>CL8CKW8RK</title>
+<title>Slots</title>
 <body>
 
 <div id="title">
@@ -46,18 +45,38 @@
 			<p id ="pull" >PULL</p>
 		</td>
 	</tbody>
-
 		<tbody>
-		<div id="login">
-			<td>	
+			<td valign="top">
+				<h2 id ="logInTitle">Log In</h2>
+				<div id="logInPage" name ="logInPage">
+					<form action="login.php" method ="post">
+						<input type="text" name="username" id="username" placeholder="username...">
+						<br>
+						<input type="password" name="password" id="password" value="" placeholder="password...">
+						<br>
+						<input type="submit" name="logInSubmit">
+					</form>
+					<br>
+					<p id ="fyp" onmouseover="" style="cursor: pointer;"><span style="text-decoration: underline; color: blue;">Forgot your password?</span></p>
+					<p id= "su" onmouseover="" style="cursor: pointer;"><span style="text-decoration: underline;">Don't have an account? Sign up.</span></p>
+				</div>
+				<div id="signUpPage" style="display: none;">
+					<form action="signup.php" method ="post">
+						<input type="text" name="username" id="username" placeholder="username...">
+						<br>
+						<input type="password" name="password" id="password" value="" placeholder="password...">
+						<br>
+						<input type="submit" name="signUpSubmit">
+					</form>
+					<p id= "aha" onmouseover="" style="cursor: pointer;"><span style="text-decoration: underline;">Already have an account? Log in.</span></p>
+				</div>
 			</td>
-		</div>
-		<td valign="top">
+			<td valign="top">
 			<h2 id="winnings">Winnings</h2>
 			<p>Bar = 1X Bet<br>Grape = 2X Bet<br>Seven = 3X Bet<br>Dollar = 4X Bet<br>Bell = 5X Bet<br>Lemon = 6X Bet<br>
 			</p>
 		</td>
-		<td valign= "top">	<div style="width:100%; max-height:175px; overflow: auto;"id="transBody" class=scrollable>
+		<td valign= "top">	<div style="width:100%; max-height:260px; min-height: 260px;overflow: auto;"id="transBody" class=scrollable>
 			<h2 id="transHist">Transaction History</h2>
 			<p id="dynamicPara"></p>
 		</td>
