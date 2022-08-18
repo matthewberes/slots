@@ -9,15 +9,18 @@ if (isset($_POST["logInSubmit"])) {
 	require_once 'functions.php';
 
 	if (emptyInput($username, $password) !== false){
-		header("location: ../slotTest/slot.php");
+		//echo 'alert("emptyInput");';
+		//header("location: ../slotTest/slot.php");
 		exit();
 	}
-	console.log("user logged in");
 
 	loginUser($conn, $username, $password);
-	console.log("user logged in");
+	$currBal = getBal($username, $conn);
+	print "account = $username ";
+	print "currBal = $currBal";
+	echo '<script type="text/javascrpt" src ="slotscript.js">','setBal($currBal);','</script>';
 }	
-	else{
-		header("location: ../slotTest/slot.php");
-		exit();
-	}
+else{
+	header("location: ../slotTest/slot.php");
+	exit();
+}

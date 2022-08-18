@@ -10,6 +10,7 @@ $(document).ready(function() {
 	//initializing variables
 	let total = 69;
 	let bet = 10;
+	let loggedIn = 0;
 
 	//initial scroll upon startup
 	let previousSlot1 = Math.floor(Math.random() * 6);
@@ -53,6 +54,12 @@ $(document).ready(function() {
 			//update transaction history
 			let html = "<span style='color:green'> +" + input + "</span><br>";
 			p.insertAdjacentHTML('afterbegin', html);
+
+
+			//update database
+			if (loggedIn > 0){
+				updateBal();
+			}
 		}
 
 	})
@@ -70,6 +77,11 @@ $(document).ready(function() {
 			//update transaction history
 			let html = "<span style='color:red'> -" + input + "</span><br>";
 			p.insertAdjacentHTML('afterbegin', html);
+
+			//update database
+			if (loggedIn > 0){
+				updateBal();
+			}
 		}
 		else if (input > total) {
 			alert("Insufficient Funds");
@@ -114,6 +126,11 @@ $(document).ready(function() {
 			//update balance
 			total = +total - +bet
 			document.getElementById("totalNum").innerHTML = "Total: " + total;
+
+			//update database
+			if (loggedIn > 0){
+				updateBal();
+			}
 
 			//RNG for next slot
 			var num1 = Math.floor(Math.random() * 6);
@@ -179,6 +196,68 @@ $(document).ready(function() {
 		s.style.display = "none";
 	}
 
+	//log out
+	document.getElementById("logOutButton").onclick = function() {LO()};
+	function LO() {
+		var l = document.getElementById("logInPage");
+		var s = document.getElementById("signUpPage");
+		var o = document.getElementById("loggedInPage");
+
+		l.style.display = "block";
+		s.style.display = "none";
+		o.style.display = "none";
+
+		total = 69;
+		loggedIn = 0;
+
+		document.getElementById("logInTitle").innerHTML = "Log in";
+		document.getElementById("totalNum").innerHTML = "Total: " + total;
+	}
+
+	document.getElementById("logInSubmit").onclick = function() {LI()};
+	function LI(){
+		var userName = document.getElementById("usernameL").value;
+
+		$.ajax({
+			url: "loginAJAX.php",
+			method: "post",
+			data:{usersName: userName},
+			dataType: "text",
+			success: function(data){
+				
+				var l = document.getElementById("logInPage");
+				var s = document.getElementById("signUpPage");
+				var o = document.getElementById("loggedInPage");
+				var b = document.getElementById("totalNum");
+
+				$('#totalNum').html(data);
+
+				l.style.display = "none";
+				s.style.display = "none";
+				o.style.display = "block";
+
+				document.getElementById("logInTitle").innerHTML = document.getElementById("usernameL").value;
+				var str = document.getElementById("totalNum").innerHTML;
+				var res = str.replace(/\D/g, "");
+				total = +res
+				loggedIn = 1;
+			}
+		});
+
+	}
+
+	function updateBal(){
+		var userName = document.getElementById("usernameL").value;
+
+		$.ajax({
+			url: "updateAJAX.php",
+			method: "post",
+			data:{usersName: userName, usersBal: total},
+			dataType: "text",
+			success: function(data){
+			}
+		});
+	}
 
 	//spin slot 1 proper amount
 	async function spinAnimation1(slot1Distance, slot1Destination, slotStart1){
