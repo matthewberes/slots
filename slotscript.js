@@ -1,6 +1,9 @@
 //Matt Beres, August 2022
 //simple slot machine
 
+//works with a mysql database named "slots" and a table named "logininfo"
+//5 columns in the table: int usersId, varchar usersName, varchar usersPwd, int usersBal, usersDate
+
 //deposit and withdraw funds
 //generates 3 random numbers with a range of 0-5 and determining if all 3 numbers are equal
 //gives rewards for wins and keeps track of earnings/losses
@@ -10,7 +13,10 @@ $(document).ready(function() {
 	//initializing variables
 	let total = 69;
 	let bet = 10;
+	//set to 1 if an account is logged in, updates database with balance
 	let loggedIn = 0;
+	//set to 1 if log in failed, prevents deposit/withraw
+	let logInError = 0;
 
 	//initial scroll upon startup
 	let previousSlot1 = Math.floor(Math.random() * 6);
@@ -46,6 +52,11 @@ $(document).ready(function() {
 
 	Deposit.addEventListener("click", (d) => {
 		d.preventDefault();
+
+		if (logInError > 0){
+			return
+		}
+
 		var input = document.getElementById("inputNum").value;
 		if (input > 0){
 			total = +total + +input;
@@ -69,6 +80,11 @@ $(document).ready(function() {
 	
 	Withdraw.addEventListener("click", (w) => {
 		w.preventDefault();
+
+		if (logInError > 0){
+			return
+		}
+
 		var input = document.getElementById("inputNum").value;
 		if (input <= total && input > 0){
 			total = +total - +input;
@@ -221,38 +237,52 @@ $(document).ready(function() {
 
 		total = 69;
 		loggedIn = 0;
+		logInError = 0;
 
 		document.getElementById("logInTitle").innerHTML = "Log in";
 		document.getElementById("totalNum").innerHTML = "Total: " + total;
 		document.getElementById("dynamicPara").innerHTML = "";
 	}
 
+	//log in
 	document.getElementById("logInSubmit").onclick = function() {LI()};
 	function LI(){
+		//makes sure displays are for log out
+		const but = document.getElementById("logOutButton");
+
+		but.value = "Log out";
+		document.getElementById("userSince").style.display = "block";
+
 		var userName = document.getElementById("usernameL").value;
+		var passWord = document.getElementById("passwordL").value;
 
 		//check if inputs are empty
-		if (typeof userName === 'string' && userName.length === 0 || typeof password === 'string' && password.length === 0 ){
+		if (typeof userName === 'string' && userName.length === 0 || typeof passWord === 'string' && passWord.length === 0 ){
 			document.getElementById("error").innerHTML = "Empty input";
 			document.getElementById("error").style.color = "red";
 			document.getElementById("error").style.display = "block";
-			return
+			document.getElementById("userSince").style.display = "none";
+			document.getElementById('logOutButton').value = "Try again";
 		}
 
-		// //check if username exists
-		// if (){
-
-		// }
-
-		// //check if password matches
-		// if (){
-
-		// }
-
+		//updates logInTitle
 		$.ajax({
-			url: "loginAJAX.php",
+			url: "usernameAJAX.php",
 			method: "post",
-			data:{usersName: userName},
+			data:{usersName: userName, usersPwd: passWord},
+			dataType: "text",
+			success: function(data){
+				//log in title changes
+				$('#logInTitle').html(data);
+				logInError = document.getElementById("passValue").innerHTML;
+			}
+		});
+
+		//updates balance and profile display
+		$.ajax({
+			url: "balanceAJAX.php",
+			method: "post",
+			data:{usersName: userName, usersPwd: passWord},
 			dataType: "text",
 			success: function(data){
 				
@@ -261,22 +291,37 @@ $(document).ready(function() {
 				var o = document.getElementById("loggedInPage");
 				var b = document.getElementById("totalNum");
 
+				//balance changes
 				$('#totalNum').html(data);
 
+				//display loggedInPage div
 				l.style.display = "none";
 				s.style.display = "none";
 				o.style.display = "block";
 
-				//log in title changes to username
-				document.getElementById("logInTitle").innerHTML = document.getElementById("usernameL").value;
 				//transaction history
 				document.getElementById("dynamicPara").innerHTML = "";
+				
 				//balance
 				var str = document.getElementById("totalNum").innerHTML;
 				var res = str.replace(/\D/g, "");
 				total = +res
+				
 				//allows database updates from updateBal()
-				loggedIn = 1;
+				loggedIn = 1;							
+			}
+		});
+
+		//updates userSince
+		$.ajax({
+			url: "dateAJAX.php",
+			method: "post",
+			data:{usersName: userName},
+			dataType: "text",
+			success: function(data){
+				//log in title changes to username
+				$('#userSince').html(data);
+				logInError = document.getElementById("passValue").innerHTML;
 			}
 		});
 	}
@@ -295,7 +340,7 @@ $(document).ready(function() {
 		});
 	}
 
-	//remove error msg
+	//remove error msgs
 	document.getElementById("username").onclick = function() {removeError()};
 	function removeError(){
 		var e = document.getElementById("error");

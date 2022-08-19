@@ -5,8 +5,8 @@ $connect = mysqli_connect("localhost", "root", "", "slots");
 if(isset($_POST["usersName"])){
 
 	$username = $_POST["usersName"];
-	$password = $_POST["usersPwd"];
 	$output = '';
+	$errorLogin = false;
 
 	mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
@@ -24,21 +24,29 @@ if(isset($_POST["usersName"])){
 
 	if(mysqli_num_rows($result) > 0){
 		while($row = mysqli_fetch_assoc($result)){
-			
-			$pwdHashed = $row["usersPwd"];
-			$checkPwd = password_verify($password, $pwdHashed);
-			if ($checkPwd > 0){
-				$output .= '<p>Total: '.$row['usersBal'].'</p>';
-			}
-			else{
-				$output .= '<p>Total: 0</p>';
-			}
+				$output .= '<p>User since: '.$row['usersDate'].'</p>';
 		}
 		echo $output;
 	}
 	else{
-		$output .= '<p>Total: 0</p>';
+		$errorLogin = true;
+		$output .= '';
 		echo $output;
 	}
 	mysqli_stmt_close($stmt);
 }
+?>
+<script>
+	var errorLogin = <?php echo $errorLogin ? 'true' : 'false';?>;
+	if (errorLogin == true){
+
+		document.getElementById("userSince").style.display = "none";
+		document.getElementById('logOutButton').value = "Try again";
+		document.getElementById("passValue").innerHTML = "1";
+	}
+	else{
+		document.getElementById("passValue").innerHTML = "0";
+
+	}
+
+</script>

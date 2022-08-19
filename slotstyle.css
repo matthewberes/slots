@@ -39,23 +39,27 @@ input{
   width: 115px;
 }
 
+#accountBox{
+  vertical-align: top;
+}
+
 #logInTitle {
   font-family: sans-serif;
-  margin-top: 8px;
+  margin-top: 8;
   text-align: center;
   font-weight: 100;
 }
 
 #transHist {
   font-family: sans-serif;
-  margin-top: 8px;
+  margin-top: 8;
   text-align: center;
   font-weight: 100;
 }
 
 #winnings {
   font-family: sans-serif;
-  margin-top: 8px;
+  margin-top: 8;
   text-align: center;
   font-weight: 100;
 }

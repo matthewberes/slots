@@ -39,7 +39,7 @@
 		</td>
 	</tbody>
 	<tbody>
-		<td valign="top">
+		<td id="accountBox" valign="top">
 			<h2 id ="logInTitle">Sign up</h2>
 			<p id="error" style="display"/>
 
@@ -68,7 +68,7 @@
 			</div>
 
 			<div id="loggedInPage" style="display: none;">
-				<p>User since: </p>
+				<p id="userSince">User since: </p>
 				<input type="button" id="logOutButton" name="logOutButton" value="Log out">
 			</div>
 		</td>
@@ -85,6 +85,7 @@
 </table>
 </div>
 </body>
+<p id="passValue" style="display: none">0</p>
 </html>
 
 <?php
