@@ -11,19 +11,19 @@ if (isset($_POST['signUpSubmit'])){
 
 	if (emptyInput($username, $password) !== false) {
 		//console.log("ERROR emptyInput");
-		//header("location: ../slotTest/slot.php");
+		header("location: ../slotTest/slot.php?error=emptyInput");
 		exit();
 		}
 
 	if (invalidUsername($username) !== false) {
 		//console.log("ERROR invalidUsername");
-		//header("location: ../slotTest/slot.php");
+		header("location: ../slotTest/slot.php?error=invalidUsername");
 		exit();
 	}
 
 	if (usernameExists($conn, $username) !== false) {
 		//console.log("ERROR usernameExists");
-		//header("location: ../slotTest/slot.php");
+		header("location: ../slotTest/slot.php?error=usernameExists");
 		exit();
 	}
 
@@ -31,6 +31,7 @@ if (isset($_POST['signUpSubmit'])){
 	//DOMDOCUMENT toggle loggedInPage on
 	//DOMDOCUMENT logInTitle innerHTML
 	//console.log("User created");
+	header("location: ../slotTest/slot.php");
 }
 //no username
 else {

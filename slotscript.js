@@ -169,13 +169,11 @@ $(document).ready(function() {
 	//forgot your password
 	document.getElementById("fyp").onclick = function() {FYP()};
 	function FYP() {
-		console.log("remember it next time");
-	}
+		document.getElementById("error").innerHTML = "Remember it this time.";
+		document.getElementById("error").style.color = "red";
+		document.getElementById("error").style.display = "block";
 
-	//switch to sign up
-	document.getElementById("su").onclick = function() {SU()};
-	function SU() {
-		console.log("switch to sign up");
+		//switch back to sign up
 		document.getElementById("logInTitle").innerHTML = "Sign Up";
 		var l = document.getElementById("logInPage");
 		var s = document.getElementById("signUpPage");
@@ -184,16 +182,30 @@ $(document).ready(function() {
 		s.style.display = "block";
 	}
 
+	//switch to sign up
+	document.getElementById("su").onclick = function() {SU()};
+	function SU() {
+		document.getElementById("logInTitle").innerHTML = "Sign Up";
+		var l = document.getElementById("logInPage");
+		var s = document.getElementById("signUpPage");
+		var e = document.getElementById("error");
+
+		l.style.display = "none";
+		s.style.display = "block";
+		e.style.display = "none";
+	}
+
 	//switch to log in
 	document.getElementById("aha").onclick = function() {AHA()};
 	function AHA() {
-		console.log("switch to login");
 		document.getElementById("logInTitle").innerHTML = "Log in";
 		var l = document.getElementById("logInPage");
 		var s = document.getElementById("signUpPage");
+		var e = document.getElementById("error");
 
 		l.style.display = "block";
 		s.style.display = "none";
+		e.style.display = "none";
 	}
 
 	//log out
@@ -212,11 +224,30 @@ $(document).ready(function() {
 
 		document.getElementById("logInTitle").innerHTML = "Log in";
 		document.getElementById("totalNum").innerHTML = "Total: " + total;
+		document.getElementById("dynamicPara").innerHTML = "";
 	}
 
 	document.getElementById("logInSubmit").onclick = function() {LI()};
 	function LI(){
 		var userName = document.getElementById("usernameL").value;
+
+		//check if inputs are empty
+		if (typeof userName === 'string' && userName.length === 0 || typeof password === 'string' && password.length === 0 ){
+			document.getElementById("error").innerHTML = "Empty input";
+			document.getElementById("error").style.color = "red";
+			document.getElementById("error").style.display = "block";
+			return
+		}
+
+		// //check if username exists
+		// if (){
+
+		// }
+
+		// //check if password matches
+		// if (){
+
+		// }
 
 		$.ajax({
 			url: "loginAJAX.php",
@@ -236,16 +267,21 @@ $(document).ready(function() {
 				s.style.display = "none";
 				o.style.display = "block";
 
+				//log in title changes to username
 				document.getElementById("logInTitle").innerHTML = document.getElementById("usernameL").value;
+				//transaction history
+				document.getElementById("dynamicPara").innerHTML = "";
+				//balance
 				var str = document.getElementById("totalNum").innerHTML;
 				var res = str.replace(/\D/g, "");
 				total = +res
+				//allows database updates from updateBal()
 				loggedIn = 1;
 			}
 		});
-
 	}
 
+	//if user is signed in, this keeps track of balance
 	function updateBal(){
 		var userName = document.getElementById("usernameL").value;
 
@@ -258,6 +294,19 @@ $(document).ready(function() {
 			}
 		});
 	}
+
+	//remove error msg
+	document.getElementById("username").onclick = function() {removeError()};
+	function removeError(){
+		var e = document.getElementById("error");
+		e.style.display = "none";
+	}
+
+	document.getElementById("usernameL").onclick = function() {removeError()};
+
+	document.getElementById("password").onclick = function() {removeError()};
+
+	document.getElementById("passwordL").onclick = function() {removeError()};
 
 	//spin slot 1 proper amount
 	async function spinAnimation1(slot1Distance, slot1Destination, slotStart1){

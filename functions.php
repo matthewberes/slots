@@ -55,7 +55,7 @@ function usernameExists($conn, $username){
 }
 
 function createUser($conn, $username, $password){
-	$sql = "INSERT INTO logininfo (usersName, usersPwd) VALUES (?, ?);";
+	$sql = "INSERT INTO logininfo (usersName, usersPwd, usersBal) VALUES (?, ?, 0);";
 	$stmt = mysqli_stmt_init($conn);
 
 	$hashedPwd = password_hash($password, PASSWORD_DEFAULT);
@@ -70,8 +70,6 @@ function createUser($conn, $username, $password){
 	mysqli_stmt_close($stmt);
 	//console.log("User added");
 	//alert("createUser");
-	//header("location: ../slotTest/slot.php");
-
 }
 
 //login function
@@ -106,28 +104,28 @@ function loginUser($conn, $username, $password){
 	}
 }
 
-//get balance
-function getBal($username, $conn){
-	$sql = "SELECT usersBal FROM logininfo WHERE usersName = ?";
-	$stmt = mysqli_stmt_init($conn);
+// //get balance
+// function getBal($username, $conn){
+// 	$sql = "SELECT usersBal FROM logininfo WHERE usersName = ?";
+// 	$stmt = mysqli_stmt_init($conn);
 
-	if (!mysqli_stmt_prepare($stmt, $sql)) {
-		//error. stmt failed
-		}
+// 	if (!mysqli_stmt_prepare($stmt, $sql)) {
+// 		//error. stmt failed
+// 		}
 
-	mysqli_stmt_bind_param($stmt, "s", $username);
-	mysqli_stmt_execute($stmt);
+// 	mysqli_stmt_bind_param($stmt, "s", $username);
+// 	mysqli_stmt_execute($stmt);
 
-	$resultData = mysqli_stmt_get_result($stmt);
+// 	$resultData = mysqli_stmt_get_result($stmt);
 
-	if ($row = mysqli_fetch_assoc($resultData)){
-		return $row["usersBal"];
-	}
-	else{
-		$result = false;
-		return $result;
-	}
+// 	if ($row = mysqli_fetch_assoc($resultData)){
+// 		return $row["usersBal"];
+// 	}
+// 	else{
+// 		$result = false;
+// 		return $result;
+// 	}
 
-	mysqli_stmt_close($stmt);
+// 	mysqli_stmt_close($stmt);
 
-}
+// }

@@ -40,13 +40,14 @@
 	</tbody>
 	<tbody>
 		<td valign="top">
-			<h2 id ="logInTitle">Log In</h2>
+			<h2 id ="logInTitle">Sign up</h2>
+			<p id="error" style="display"/>
 
-			<div id="logInPage" name ="logInPage">
+			<div id="logInPage" name ="logInPage" style="display: none;">
 				<form>
 					<input type="text" name="usernameL" id="usernameL" placeholder="username...">
 					<br>
-					<input type="password" name="password" id="password" value="" placeholder="password...">
+					<input type="password" name="passwordL" id="passwordL" value="" placeholder="password...">
 					<br>
 					<input type="button" id = "logInSubmit" name="logInSubmit" value= "Log in">
 				</form>
@@ -55,13 +56,13 @@
 				<p id= "su" onmouseover="" style="cursor: pointer;"><span style="text-decoration: underline;">Don't have an account? Sign up.</span></p>
 			</div>
 
-			<div id="signUpPage" style="display: none;">
+			<div id="signUpPage" style="display">
 				<form action="signup.php" method ="post">
 					<input type="text" name="username" id="username" placeholder="username...">
 					<br>
 					<input type="password" name="password" id="password" value="" placeholder="password...">
 					<br>
-					<input type="submit" name="signUpSubmit">
+					<input type="submit" name="signUpSubmit" value ="Sign up">
 				</form>
 				<p id= "aha" onmouseover="" style="cursor: pointer;"><span style="text-decoration: underline;">Already have an account? Log in.</span></p>
 			</div>
@@ -70,7 +71,6 @@
 				<p>User since: </p>
 				<input type="button" id="logOutButton" name="logOutButton" value="Log out">
 			</div>
-
 		</td>
 		<td valign="top">
 			<h2 id="winnings">Winnings</h2>
@@ -86,3 +86,20 @@
 </div>
 </body>
 </html>
+
+<?php
+if (isset($_GET["error"])){
+	if($_GET["error"] == "emptyInput"){
+		echo '<script>document.getElementById("error").innerHTML = "Empty input";</script>';
+		echo '<script>document.getElementById("error").style.color = "red";</script>';
+	}
+	if($_GET["error"] == "invalidUsername"){
+		echo '<script>document.getElementById("error").innerHTML = "Username is invalid";</script>';
+		echo '<script>document.getElementById("error").style.color = "red";</script>';
+	}
+	if($_GET["error"] == "usernameExists"){
+		echo '<script>document.getElementById("error").innerHTML = "Username is taken";</script>';
+		echo '<script>document.getElementById("error").style.color = "red";</script>';
+	}
+}
+?>
