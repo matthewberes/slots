@@ -43,14 +43,12 @@ function usernameExists($conn, $username){
 		$result = false;
 		return $result;
 	}
-
 	mysqli_stmt_close($stmt);
 }
 
 function createUser($conn, $username, $password){
 	$sql = "INSERT INTO logininfo (usersName, usersPwd, usersBal, usersDate) VALUES (?, ?, 0, ?);";
 	$stmt = mysqli_stmt_init($conn);
-
 	$hashedPwd = password_hash($password, PASSWORD_DEFAULT);
 
 	date_default_timezone_set('America/Toronto');
@@ -59,7 +57,6 @@ function createUser($conn, $username, $password){
 	if (!mysqli_stmt_prepare($stmt, $sql)) {
 		//prepare failed
 	}
-
 	mysqli_stmt_bind_param($stmt, "sss", $username, $hashedPwd, $date);
 	mysqli_stmt_execute($stmt);
 	mysqli_stmt_close($stmt);

@@ -152,15 +152,15 @@ $(document).ready(function() {
 			var dist2 = distanceCalc(lastSlot2, num2);
 			var dist3 = distanceCalc(lastSlot3, num3);
 
-			//keep track of previous slot for distanceCalc
-			lastSlot1 = num1;
-			lastSlot2 = num2;
-			lastSlot3 = num3;
-
 			//animate slots
 			spinAnimation(dist1, num1, lastSlot1, 1, null, null);
 			spinAnimation(dist2, num2, lastSlot2, 2, null, null);
 			spinAnimation(dist3, num3, lastSlot3, 3, num1, num2);
+
+			//keep track of previous slot for distanceCalc
+			lastSlot1 = num1;
+			lastSlot2 = num2;
+			lastSlot3 = num3;
 			
 			//DEBUG SLOT DISTANCE
 			//console.log("dist1 = "+ dist1)
@@ -264,7 +264,7 @@ $(document).ready(function() {
 		
 		//updates logInTitle
 		$.ajax({
-			url: "usernameAJAX.php",
+			url: "php/usernameAJAX.php",
 			method: "post",
 			data:{usersName: userName, usersPwd: passWord},
 			dataType: "text",
@@ -275,9 +275,22 @@ $(document).ready(function() {
 			}
 		});
 
+		//updates userSince
+		$.ajax({
+			url: "php/dateAJAX.php",
+			method: "post",
+			data:{usersName: userName},
+			dataType: "text",
+			success: function(data){
+				//log in title changes to username
+				$('#userSince').html(data);
+				logInError = document.getElementById("passValue").innerHTML;
+			}
+		});
+
 		//updates balance display
 		$.ajax({
-			url: "balanceAJAX.php",
+			url: "php/balanceAJAX.php",
 			method: "post",
 			data:{usersName: userName, usersPwd: passWord},
 			dataType: "text",
@@ -308,31 +321,18 @@ $(document).ready(function() {
 				loggedIn = 1;							
 			}
 		});
+	}
 
-		//updates balance in database
-		function updateBal(){
-			var userName = document.getElementById("usernameL").value;
+	//updates balance database
+	function updateBal(){
+		var userName = document.getElementById("usernameL").value;
 
-			$.ajax({
-				url: "updateAJAX.php",
-				method: "post",
-				data:{usersName: userName, usersBal: total},
-				dataType: "text",
-				success: function(data){
-				}
-			});
-		}
-
-		//updates userSince
 		$.ajax({
-			url: "dateAJAX.php",
+			url: "php/updateAJAX.php",
 			method: "post",
-			data:{usersName: userName},
+			data:{usersName: userName, usersBal: total},
 			dataType: "text",
 			success: function(data){
-				//log in title changes to username
-				$('#userSince').html(data);
-				logInError = document.getElementById("passValue").innerHTML;
 			}
 		});
 	}
@@ -355,7 +355,7 @@ $(document).ready(function() {
 		let num = n;
 		let spins = n *= 6;
 
-		//for each number from previous slot to the next slot + 1 full spin
+		//for each number from previous slot to the next slot n full spin(s)
 		for (let i = 0; i <= slotDistance + spins; i++){
 			nextSlot = (slotStart + i) % 6;
 			nextImage = nextSlot + ".png";

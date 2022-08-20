@@ -2,9 +2,9 @@
 <html lang="en">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" type="text/css" href="slotstyle.css" media="screen"/>
-<script src="jquery-3.1.1.js"></script>
-<script src="slotscript.js"></script>
+<link rel="stylesheet" type="text/css" href="index.css" media="screen"/>
+<script src="js/jquery-3.1.1.js"></script>
+<script src="index.js"></script>
 <title>Slots</title>
 <body>
 
@@ -57,7 +57,7 @@
 			</div>
 
 			<div id="signUpPage" style="display">
-				<form action="signup.php" method ="post">
+				<form action="php/signup.php" method ="post">
 					<input type="text" name="username" id="username" placeholder="username...">
 					<br>
 					<input type="password" name="password" id="password" value="" placeholder="password...">

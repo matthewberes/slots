@@ -10,22 +10,22 @@ if (isset($_POST['signUpSubmit'])){
 	require_once 'functions.php';
 
 	if (emptyInput($username, $password) !== false) {
-		header("location: ../slotTest/slot.php?error=emptyInput");
+		header("location: ../?error=emptyInput");
 		exit();
-		}
+	}
 
 	if (invalidUsername($username) !== false) {
-		header("location: ../slotTest/slot.php?error=invalidUsername");
+		header("location: ../?error=invalidUsername");
 		exit();
 	}
 
 	if (usernameExists($conn, $username) !== false) {
-		header("location: ../slotTest/slot.php?error=usernameExists");
+		header("location: ../?error=usernameExists");
 		exit();
 	}
 
 	createUser($conn, $username, $password);
-	header("location: ../slotTest/slot.php");
+	header("location: ../");
 }
 else {
 	exit();
