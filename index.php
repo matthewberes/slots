@@ -41,7 +41,7 @@
 	<tbody>
 		<td id="accountBox" valign="top">
 			<h2 id ="logInTitle">Sign up</h2>
-			<p id="error" style="display"/>
+			<p id="error"/>
 
 			<div id="logInPage" name ="logInPage" style="display: none;">
 				<form>
@@ -53,16 +53,16 @@
 				</form>
 				<br>
 				<p id ="fyp" onmouseover="" style="cursor: pointer;"><span style="text-decoration: underline; color: blue;">Forgot your password?</span></p>
-				<p id= "su" onmouseover="" style="cursor: pointer;"><span style="text-decoration: underline;">Don't have an account? Sign up.</span></p>
+				<p id= "dha" onmouseover="" style="cursor: pointer;"><span style="text-decoration: underline;">Don't have an account? Sign up.</span></p>
 			</div>
 
 			<div id="signUpPage" style="display">
-				<form action="php/signup.php" method ="post">
+				<form>
 					<input type="text" name="username" id="username" placeholder="username...">
 					<br>
 					<input type="password" name="password" id="password" value="" placeholder="password...">
 					<br>
-					<input type="submit" name="signUpSubmit" value ="Sign up">
+					<input type="button" id="signUpSubmit" name="signUpSubmit" value ="Sign up">
 				</form>
 				<p id= "aha" onmouseover="" style="cursor: pointer;"><span style="text-decoration: underline;">Already have an account? Log in.</span></p>
 			</div>
@@ -87,20 +87,3 @@
 </body>
 <p id="passValue" style="display: none">0</p>
 </html>
-
-<?php
-if (isset($_GET["error"])){
-	if($_GET["error"] == "emptyInput"){
-		echo '<script>document.getElementById("error").innerHTML = "Empty input";</script>';
-		echo '<script>document.getElementById("error").style.color = "red";</script>';
-	}
-	if($_GET["error"] == "invalidUsername"){
-		echo '<script>document.getElementById("error").innerHTML = "Username is invalid";</script>';
-		echo '<script>document.getElementById("error").style.color = "red";</script>';
-	}
-	if($_GET["error"] == "usernameExists"){
-		echo '<script>document.getElementById("error").innerHTML = "Username is taken";</script>';
-		echo '<script>document.getElementById("error").style.color = "red";</script>';
-	}
-}
-?>

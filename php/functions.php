@@ -1,5 +1,8 @@
 <?php
 
+$conn = mysqli_connect("localhost", "root", "", "slots");
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+
 //signup functions
 function emptyInput($username, $password){
 	$result;
@@ -24,7 +27,7 @@ function invalidUsername($username){
 }
 
 function usernameExists($conn, $username){
-	$sql = "SELECT * FROM logininfo WHERE usersName = ?";
+	$sql = "SELECT * FROM userdata WHERE usersName = ?";
 	$stmt = mysqli_stmt_init($conn);
 
 	if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -47,7 +50,7 @@ function usernameExists($conn, $username){
 }
 
 function createUser($conn, $username, $password){
-	$sql = "INSERT INTO logininfo (usersName, usersPwd, usersBal, usersDate) VALUES (?, ?, 0, ?);";
+	$sql = "INSERT INTO userdata (usersName, usersPwd, usersBal, usersDate) VALUES (?, ?, 0, ?);";
 	$stmt = mysqli_stmt_init($conn);
 	$hashedPwd = password_hash($password, PASSWORD_DEFAULT);
 

@@ -9,7 +9,7 @@ if(isset($_POST["usersName"])){
 	$output = '';
 	$errorLogin = false;
 	$errorPassword = false;
-	$sql = "SELECT * FROM logininfo WHERE usersName = ?";
+	$sql = "SELECT * FROM userdata WHERE usersName = ?";
 	$stmt = mysqli_stmt_init($connect);
 
 	if (!mysqli_stmt_prepare($stmt, $sql)) {

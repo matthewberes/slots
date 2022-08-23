@@ -1,7 +1,7 @@
 //Matt Beres, August 2022
 //simple slot machine
 
-//works with a mysql database named "slots" and a table named "logininfo"
+//works with a mysql database named "slots" and a table named "userdata"
 //5 columns in the table: int usersId, varchar usersName, varchar usersPwd, int usersBal, varchar usersDate
 
 //deposit and withdraw funds
@@ -13,10 +13,16 @@ $(document).ready(function() {
 	//initializing variables
 	let total = 69;
 	let bet = 10;
+
 	//set to 1 if an account is logged in, updates database with balance
 	let loggedIn = 0;
+
 	//set to 1 if log in failed, prevents deposit/withraw
 	let logInError = 0;
+
+	//empty fields for sign up
+	document.getElementById("username").value = "";
+	document.getElementById("password").value = "";
 
 	//initial scroll upon startup
 	let previousSlot1 = Math.floor(Math.random() * 6);
@@ -103,14 +109,17 @@ $(document).ready(function() {
 	//bet cell
 
 	//raise bet
+	var intervalId;
+	let add1Button = document.getElementById("add1");
+	let sub1Button = document.getElementById("sub1");
+
 	document.getElementById("add1").onclick = function() {add1()};
 	function add1() {
-		if (bet > -1){
 			bet++;
 			document.getElementById("curBet").innerHTML = "Bet: " + bet;
-		}
 	}
-	
+	$("#add1").mousedown(function() {intervalId = setInterval(add1, 50); add1Button.setPointerCapture(event.pointerId);}).mouseup(function(){clearInterval(intervalId);});
+
 	//lower bet
 	document.getElementById("sub1").onclick = function() {sub1()};
 	function sub1() {
@@ -119,6 +128,7 @@ $(document).ready(function() {
 			document.getElementById("curBet").innerHTML = "Bet: " + bet;
 		}
 	}
+	$("#sub1").mousedown(function() {intervalId = setInterval(sub1, 50); sub1Button.setPointerCapture(event.pointerId);}).mouseup(function(){clearInterval(intervalId);});
 
 	//spin/pull cell
 
@@ -146,21 +156,10 @@ $(document).ready(function() {
 			var num2 = Math.floor(Math.random() * 6);
 			var num3 = Math.floor(Math.random() * 6);
 
-			
 			//calculate distance
 			var dist1 = distanceCalc(lastSlot1, num1);
 			var dist2 = distanceCalc(lastSlot2, num2);
 			var dist3 = distanceCalc(lastSlot3, num3);
-
-			//animate slots
-			spinAnimation(dist1, num1, lastSlot1, 1, null, null);
-			spinAnimation(dist2, num2, lastSlot2, 2, null, null);
-			spinAnimation(dist3, num3, lastSlot3, 3, num1, num2);
-
-			//keep track of previous slot for distanceCalc
-			lastSlot1 = num1;
-			lastSlot2 = num2;
-			lastSlot3 = num3;
 			
 			//DEBUG SLOT DISTANCE
 			//console.log("dist1 = "+ dist1)
@@ -171,15 +170,34 @@ $(document).ready(function() {
 			//console.log("num1 " + num1)
 			//console.log("num2 " + num2)
 			//console.log("num3 " + num3)
-
+			
 			//DEBUG LAST SLOTS AT START
 			//console.log("last1 " + lastSlot1)
 			//console.log("last2 " + lastSlot2)
 			//console.log("last3 " + lastSlot3)
-		}
+
+			//animate slots
+			spinAnimation(dist1, num1, lastSlot1, 1, null, null);
+			spinAnimation(dist2, num2, lastSlot2, 2, null, null);
+			spinAnimation(dist3, num3, lastSlot3, 3, num1, num2);
+
+			//keep track of previous slot for distanceCalc
+			lastSlot1 = num1;
+			lastSlot2 = num2;
+			lastSlot3 = num3;
+			}
 	}
 
 	//account cell
+
+	//enter press clicks login button
+	var enterBut = document.getElementById("passwordL");
+	enterBut.addEventListener("keypress", function(event){
+		if (event.key === "Enter"){
+			event.preventDefault();
+			document.getElementById("logInSubmit").click();
+		}
+	});
 
 	//forgot your password
 	document.getElementById("fyp").onclick = function() {FYP()};
@@ -198,9 +216,15 @@ $(document).ready(function() {
 	}
 
 	//switch to sign up
-	document.getElementById("su").onclick = function() {SU()};
-	function SU() {
+	document.getElementById("dha").onclick = function() {DHA()};
+	function DHA() {
+		//change title
 		document.getElementById("logInTitle").innerHTML = "Sign Up";
+		
+		//empty fields for sign up
+		document.getElementById("username").value = "";
+		document.getElementById("password").value = "";
+		
 		var l = document.getElementById("logInPage");
 		var s = document.getElementById("signUpPage");
 		var e = document.getElementById("error");
@@ -214,6 +238,8 @@ $(document).ready(function() {
 	document.getElementById("aha").onclick = function() {AHA()};
 	function AHA() {
 		document.getElementById("logInTitle").innerHTML = "Log in";
+		document.getElementById("username").value = "";
+		document.getElementById("password").value = "";
 		var l = document.getElementById("logInPage");
 		var s = document.getElementById("signUpPage");
 		var e = document.getElementById("error");
@@ -223,31 +249,26 @@ $(document).ready(function() {
 		e.style.display = "none";
 	}
 
-	//log out
-	document.getElementById("logOutButton").onclick = function() {LO()};
-	function LO() {
-		//display log in page
-		var l = document.getElementById("logInPage");
-		var s = document.getElementById("signUpPage");
-		var o = document.getElementById("loggedInPage");
-
-		l.style.display = "block";
-		s.style.display = "none";
-		o.style.display = "none";
-
-		//reset values
-		total = 69;
-		bet = 10;
-		loggedIn = 0;
-		logInError = 0;
-
-		document.getElementById("passwordL").value = "";
-		document.getElementById("logInTitle").innerHTML = "Log in";
-		document.getElementById("totalNum").innerHTML = "Total: " + total;
-		document.getElementById("curBet").innerHTML = "Bet: " + bet;
-		document.getElementById("dynamicPara").innerHTML = "";
+	//sign up
+	document.getElementById("signUpSubmit").onclick = function() {SU()};
+	function SU(){
+		var userName = document.getElementById("username").value;
+		var passWord = document.getElementById("password").value;		
+		
+		$.ajax({
+			url: "php/signupAJAX.php",
+			method: "post",
+			data: {usersName: userName, usersPwd: passWord},
+			dataType: "text",
+			success: function(data){
+				//process any errors so they are displayed clientside
+				$('#error').html(data);
+				document.getElementById("error").style.display = "block";
+				document.getElementById("error").style.color = "red";
+			} 
+		});
 	}
-
+	
 	//log in
 	document.getElementById("logInSubmit").onclick = function() {LI()};
 	function LI(){
@@ -321,6 +342,31 @@ $(document).ready(function() {
 				loggedIn = 1;							
 			}
 		});
+	}
+
+	//log out
+	document.getElementById("logOutButton").onclick = function() {LO()};
+	function LO() {
+		//display log in page
+		var l = document.getElementById("logInPage");
+		var s = document.getElementById("signUpPage");
+		var o = document.getElementById("loggedInPage");
+
+		l.style.display = "block";
+		s.style.display = "none";
+		o.style.display = "none";
+
+		//reset values
+		total = 69;
+		bet = 10;
+		loggedIn = 0;
+		logInError = 0;
+
+		document.getElementById("passwordL").value = "";
+		document.getElementById("logInTitle").innerHTML = "Log in";
+		document.getElementById("totalNum").innerHTML = "Total: " + total;
+		document.getElementById("curBet").innerHTML = "Bet: " + bet;
+		document.getElementById("dynamicPara").innerHTML = "";
 	}
 
 	//updates balance database
