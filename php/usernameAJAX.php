@@ -8,7 +8,6 @@ if(isset($_POST["usersName"])){
 	$password = $_POST['usersPwd'];
 	$output = '';
 	$errorLogin = false;
-	$errorPassword = false;
 	$sql = "SELECT * FROM userdata WHERE usersName = ?";
 	$stmt = mysqli_stmt_init($connect);
 

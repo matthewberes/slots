@@ -185,7 +185,7 @@ $(document).ready(function() {
 			lastSlot1 = num1;
 			lastSlot2 = num2;
 			lastSlot3 = num3;
-			}
+		}
 	}
 
 	//account cell
@@ -203,8 +203,11 @@ $(document).ready(function() {
 	document.getElementById("fyp").onclick = function() {FYP()};
 	function FYP() {
 		document.getElementById("error").innerHTML = "Remember it this time.";
-		document.getElementById("error").style.color = "red";
 		document.getElementById("error").style.display = "block";
+
+		//empty fields for sign up
+		document.getElementById("username").value = "";
+		document.getElementById("password").value = "";
 
 		//switch back to sign up
 		document.getElementById("logInTitle").innerHTML = "Sign Up";
@@ -238,8 +241,6 @@ $(document).ready(function() {
 	document.getElementById("aha").onclick = function() {AHA()};
 	function AHA() {
 		document.getElementById("logInTitle").innerHTML = "Log in";
-		document.getElementById("username").value = "";
-		document.getElementById("password").value = "";
 		var l = document.getElementById("logInPage");
 		var s = document.getElementById("signUpPage");
 		var e = document.getElementById("error");
@@ -264,7 +265,6 @@ $(document).ready(function() {
 				//process any errors so they are displayed clientside
 				$('#error').html(data);
 				document.getElementById("error").style.display = "block";
-				document.getElementById("error").style.color = "red";
 			} 
 		});
 	}

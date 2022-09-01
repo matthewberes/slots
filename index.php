@@ -41,7 +41,7 @@
 	<tbody>
 		<td id="accountBox" valign="top">
 			<h2 id ="logInTitle">Sign up</h2>
-			<p id="error"/>
+			<p id="error" style="color: red"/>
 
 			<div id="logInPage" name ="logInPage" style="display: none;">
 				<form>

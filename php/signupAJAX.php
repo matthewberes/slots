@@ -28,13 +28,13 @@ if (isset($_POST['usersName'])){
 		return;
 	}
 
-	if (usernameExists($conn, $username) !== false) {
+	if (usernameExists($connect, $username) !== false) {
 		$errorTaken = true;
 		$output .= '<p>Username is taken</p>';
 		echo $output;
 		return;
 	}
-	createUser($conn, $username, $password);
+	createUser($connect, $username, $password);
 }
 else {
 	exit();

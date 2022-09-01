@@ -26,9 +26,9 @@ function invalidUsername($username){
 	return $result;
 }
 
-function usernameExists($conn, $username){
+function usernameExists($connect, $username){
 	$sql = "SELECT * FROM userdata WHERE usersName = ?";
-	$stmt = mysqli_stmt_init($conn);
+	$stmt = mysqli_stmt_init($connect);
 
 	if (!mysqli_stmt_prepare($stmt, $sql)) {
 		//prepare failed
@@ -49,9 +49,9 @@ function usernameExists($conn, $username){
 	mysqli_stmt_close($stmt);
 }
 
-function createUser($conn, $username, $password){
+function createUser($connect, $username, $password){
 	$sql = "INSERT INTO userdata (usersName, usersPwd, usersBal, usersDate) VALUES (?, ?, 0, ?);";
-	$stmt = mysqli_stmt_init($conn);
+	$stmt = mysqli_stmt_init($connect);
 	$hashedPwd = password_hash($password, PASSWORD_DEFAULT);
 
 	date_default_timezone_set('America/Toronto');
